@@ -13,10 +13,22 @@
             "color_scheme": "accent-2",
             "link": ""
           }
+        },
+        "895f3207-5bb5-446d-8021-1b175b9b3b9b": {
+          "type": "countdown",
+          "settings": {
+            "enable_countdown": true,
+            "background_color": "#80411e",
+            "text_color": "#ffffff",
+            "custom_timer_text": "custom text",
+            "timer_date": "20-04-2024",
+            "time_of_day": "10:00"
+          }
         }
       },
       "block_order": [
-        "announcement-bar-0"
+        "announcement-bar-0",
+        "895f3207-5bb5-446d-8021-1b175b9b3b9b"
       ],
       "settings": {}
     },

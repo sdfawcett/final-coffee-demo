@@ -33,6 +33,9 @@
       ],
       "settings": {
         "image": "shopify:\/\/shop_images\/banner_image_main.jpg",
+        "video_background": true,
+        "video_url_desktop": "https:\/\/cdn.shopify.com\/videos\/c\/o\/v\/d425db67d528437898436bb54ba0038e.mp4",
+        "video_url_mobile": "https:\/\/cdn.shopify.com\/videos\/c\/o\/v\/3532bdad27224c7a95eb645e0d8ac030.mp4",
         "image_overlay_opacity": 40,
         "image_height": "large",
         "desktop_content_position": "bottom-center",

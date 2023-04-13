@@ -2203,7 +2203,7 @@ product-info .loading-overlay:not(.hidden) ~ *,
 
 /* section-announcement-bar */
 .announcement-bar {
-  border-bottom: 0.1rem solid rgba(var(--color-foreground), 0.08);
+  border-bottom: none;
   color: rgb(var(--color-foreground));
 }
 
@@ -2235,6 +2235,47 @@ product-info .loading-overlay:not(.hidden) ~ *,
   padding: 1rem 0;
   margin: 0;
   letter-spacing: 0.1rem;
+}
+
+/* section-announcement-countdown */
+#countdown-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.countdown {
+  display: flex;
+  justify-content: center;
+}
+
+.countdown .day,
+.countdown .hour,
+.countdown .min,
+.countdown .sec {
+  padding: 1vw .5vw;
+  text-align: center;
+}
+
+.countdown .day .num,
+.countdown .hour .num,
+.countdown .min .num,
+.countdown .sec .num {
+  font-size: 2rem;
+  line-height: 1em;
+}
+
+.countdown .day .word,
+.countdown .hour .word,
+.countdown .min .word,
+.countdown .sec .word {
+  font-size: 1.5rem;
+}
+
+.countdown-custom-text {
+  margin: 0;
+  text-transform: uppercase;
+  display: inline-block;
 }
 
 /* section-header */
