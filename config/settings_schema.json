@@ -1518,7 +1518,7 @@
         "type": "text",
         "id": "cart_heading",
         "label": "Upsell Heading",
-        "info": "Add a heading to your upsell"
+        "info": "Add a heading for your upsell"
       },
       {
         "type": "product",

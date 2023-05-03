@@ -1,10 +1,10 @@
 {{ 'section-image-banner.css' | asset_url | stylesheet_tag }}
 
-{% comment  %} creating dom nodes to hold video url values from customizer so they can be read in javascript {% endcomment %}
-{% assign desktop_video_link = section.settings.video_url_desktop %}
-{% assign mobile_video_link = section.settings.video_url_mobile %}
-<p id="desktop-video-url-container" style="display: none">{{desktop_video_link}}</p>
-<p id="mobile-video-url-container" style="display: none">{{mobile_video_link}}</p>
+{% comment %} creating dom nodes to hold video picker options from customizer so they can be read in javascript {% endcomment %}
+{% assign uploaded_desktop_video = section.settings.video_desktop %}
+{% assign uploaded_mobile_video = section.settings.video_mobile %}
+<div id="desktop-video-container" style="display: none;">{{ section.settings.video_desktop.sources[1].url }}</div>
+<div id="mobile-video-container" style="display: none;">{{ section.settings.video_mobile.sources[1].url }}</div>
 
 {%- if section.settings.image_height == 'adapt' and section.settings.image != blank -%}
   {%- style -%}
@@ -38,12 +38,12 @@
 <div id="Banner-{{ section.id }}" class="banner banner--content-align-{{ section.settings.desktop_content_alignment }} banner--content-align-mobile-{{ section.settings.mobile_content_alignment }} banner--{{ section.settings.image_height }}{% if section.settings.stack_images_on_mobile and section.settings.image != blank and section.settings.image_2 != blank %} banner--stacked{% endif %}{% if section.settings.image_height == 'adapt' and section.settings.image != blank %} banner--adapt{% endif %}{% if section.settings.show_text_below %} banner--mobile-bottom{%- endif -%}{% if section.settings.show_text_box == false %} banner--desktop-transparent{% endif %} {% if section.settings.video_background %} video-background{% endif %}">
 
   {%- if section.settings.video_background -%}
-    <div id="desktop-video" class="banner__media media video-background">
+    <div class="banner__media media video-background">
       <video
-        autoplay
-        muted
-        loop
-        playsinline
+        autoplay="autoplay"
+        muted="muted"
+        loop="loop"
+        playsinline="playsinline"
         id="video-element">
         Your browser does not support HTML5 video.
       </video>
@@ -67,14 +67,14 @@
       -%}
       {{
          section.settings.image
-         | image_url: width: 3840
-         | image_tag:
-         loading: 'lazy',
-         width: section.settings.image.width,
-         height: image_height,
-         class: image_class,
-         sizes: sizes,
-         widths: '375, 550, 750, 1100, 1500, 1780, 2000, 3000, 3840' }}
+       | image_url: width: 3840
+       | image_tag:
+       loading: 'lazy',
+       width: section.settings.image.width,
+       height: image_height,
+       class: image_class,
+       sizes: sizes,
+       widths: '375, 550, 750, 1100, 1500, 1780, 2000, 3000, 3840' }}
     </div>
   {%- elsif section.settings.image_2 == blank and section.settings.video_background == false -%}
     <div class="banner__media media{% if section.settings.image == blank and section.settings.image_2 == blank %} placeholder{% endif %}{% if section.settings.image_2 != blank %} banner__media-half{% endif %}">
@@ -98,14 +98,14 @@
       -%}
       {{
          section.settings.image_2
-         | image_url: width: 3840
-         | image_tag:
-         loading: 'lazy',
-         width: section.settings.image_2.width,
-         height: image_height_2,
-         class: image_class_2,
-         sizes: sizes,
-         widths: '375, 550, 750, 1100, 1500, 1780, 2000, 3000, 3840' }}
+       | image_url: width: 3840
+       | image_tag:
+       loading: 'lazy',
+       width: section.settings.image_2.width,
+       height: image_height_2,
+       class: image_class_2,
+       sizes: sizes,
+       widths: '375, 550, 750, 1100, 1500, 1780, 2000, 3000, 3840' }}
     </div>
   {%- endif -%}
   <div class="banner__content banner__content--{{ section.settings.desktop_content_position }} page-width">
@@ -179,13 +179,13 @@
         "label": "Has Video Background"
       },
       {
-        "type": "url",
-        "id": "video_url_desktop",
-        "label": "Video Url Desktop"
+        "type": "video",
+        "id": "video_desktop",
+        "label": "Desktop Video"
       }, {
-        "type": "url",
-        "id": "video_url_mobile",
-        "label": "Video Url Mobile"
+        "type": "video",
+        "id": "video_mobile",
+        "label": "Mobile Video"
       }, {
         "type": "range",
         "id": "image_overlay_opacity",
@@ -453,39 +453,35 @@
   }
 {% endschema %}
 
-{%  javascript  %} 
+<script>
+  /*script for responsive video loading*/
+  var uploadedDesktopVideo = document.getElementById("desktop-video-container").innerHTML
+  var uploadedMobileVideo = document.getElementById("mobile-video-container").innerHTML
 
-/*script for responsive video loading*/
-var desktopVideoUrl = document.getElementById("desktop-video-url-container").innerHTML;
-var mobileVideoUrl = document.getElementById("mobile-video-url-container").innerHTML;
+  var w = window.matchMedia("(max-width: 700px)")
+  var vid = document.querySelector("#video-element")
+  var source = document.createElement("source")
+  source.id = "hvid"
+  source.setAttribute("type", "video/mp4")
+  vid.appendChild(source)
 
-console.log(desktopVideoUrl);
+  if (w.matches) {
+    source.removeAttribute("src")
+    source.setAttribute("src", uploadedMobileVideo)
+  } else {
+    source.removeAttribute("src")
+    source.setAttribute("src", uploadedDesktopVideo)
+  }
 
-var w = window.matchMedia("(max-width: 700px)");
-var vid = document.querySelector("#video-element");
-var source = document.createElement("source");
-source.id = "hvid";
-source.setAttribute("type", "video/mp4");
-vid.appendChild(source);
+  window.addEventListener("resize", function() {
+    var w = window.matchMedia("(max-width: 700px)")
+    var vid = document.querySelector("#video-element")
+    var source = document.getElementById("hvid")
 
-if (w.matches) {
-   source.removeAttribute("src");
-   source.setAttribute("src", mobileVideoUrl);
-} else {
-   source.removeAttribute("src");
-   source.setAttribute("src", desktopVideoUrl);
-}
-
-window.addEventListener("resize", function () {
-   var w = window.matchMedia("(max-width: 700px)");
-   var vid = document.querySelector("#video-element");
-   var source = document.getElementById("hvid");
-
-   if (w.matches) {
-      source.src = mobileVideoUrl;
-   } else {
-      source.src = desktopVideoUrl;
-   }
-});
-
-{% endjavascript %} 
+    if (w.matches) {
+      source.src = uploadedMobileVideo
+    } else {
+      source.src = uploadedDesktopVideo
+    }
+  })
+</script>

@@ -31,7 +31,14 @@
 
     <script src="{{ 'constants.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'pubsub.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'global.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'dayjs.min.js' | asset_url }}"></script>
+    <script src="{{ 'duration.min.js' | asset_url }}"></script>
+    <script src="{{ 'localizedFormat.min.js' | asset_url }}"></script>
+    <script src="{{ 'timezone.min.js' | asset_url }}"></script>
+    <script src="{{ 'utc.min.js' | asset_url }}"></script>
+
     {{ content_for_header }}
 
     {%- liquid
@@ -242,6 +249,20 @@
     <a class="skip-to-content-link button visually-hidden" href="#MainContent">
       {{ "accessibility.skip_to_text" | t }}
     </a>
+
+    {% comment %} hidden product form that grabs upsell product variant id from customizer {% endcomment %}
+
+    <product-form-upsell class="upsell-form">
+      <form method="post" action="{{ routes.cart_add_url }}" id="upsell-form">
+
+        <select name="id" id="upsell-select">
+          {% for option in settings.product_select.variants %}
+            <option value="{{option.id}}">upsell product</option>
+          {% endfor %}
+        </select>
+
+      </form>
+    </product-form-upsell>
 
     {%- if settings.cart_type == 'drawer' -%}
       {%- render 'cart-drawer' -%}

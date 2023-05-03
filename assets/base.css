@@ -2255,6 +2255,8 @@ product-info .loading-overlay:not(.hidden) ~ *,
 .countdown .sec {
   padding: 1vw .5vw;
   text-align: center;
+  display: flex;
+  flex-direction: column;
 }
 
 .countdown .day .num,
@@ -2276,6 +2278,7 @@ product-info .loading-overlay:not(.hidden) ~ *,
   margin: 0;
   text-transform: uppercase;
   display: inline-block;
+  padding-right: 1rem;
 }
 
 /* section-header */
@@ -3033,4 +3036,9 @@ details-disclosure > details {
   .localization-form__select:focus {
     outline: transparent solid 1px;
   }
+}
+
+/*hide the form that enables in-cart upsell*/
+#upsell-form, #upsell-select {
+  display: none;
 }
